@@ -10,7 +10,7 @@ class state_t {
 private:
   unsigned id_; //identificador del estado
   bool accept_; //indica si es un nodo de aceptacion
-  set<pair<char,const state_t*> > next_; //Conjunto de estados siguientes a la arista
+  set<pair<char, unsigned> > next_; //Conjunto de estados siguientes a la arista
 
 public:
   state_t (const unsigned id, const bool accept = false) : id_(id), accept_(accept) {}
@@ -29,18 +29,18 @@ public:
   }
 
   //Devuelve el puntero par que contiene dicha letra. Usado para transitar entre los estados
-  const state_t* find_by_letter (const char c) {
-    if (next_.empty()) return NULL;
-    for (set<pair<char,const state_t*> >::iterator it = next_.begin(); it != next_.end(); it++) {
+  unsigned find_by_letter (const char c) {
+    if (next_.empty()) return -1;
+    for (set<pair<char,unsigned> >::iterator it = next_.begin(); it != next_.end(); it++) {
       if (get<0>(*it) == c) { return get<1>(*it); }
     }
-    return NULL;
+    return -1;
   }
 
-  void insert_pair (const char symbol, const state_t* pointer_state) {
-    pair<char,const state_t*> new_pair;
+  void insert_pair (const char symbol, const unsigned id) {
+    pair<char,unsigned> new_pair;
     get<0>(new_pair) = symbol;
-    get<1>(new_pair) = pointer_state;
+    get<1>(new_pair) = id;
     next_.insert(new_pair);
   }
 
@@ -49,12 +49,12 @@ public:
   }
 
   ostream& dbg_write (void) const {
-    cout << "\t---- ESTADO " << id_ << " ----\n";
+    cout << "\t---- ESTADO " << id_+1 << " ----\n";
     cout << "Es un nodo de aceptacion?: " << accept_ << "\n";
     cout << "Estados conectados:\n";
-    for (set<pair<char,const state_t*>>::iterator it = next_.begin(); it != next_.end(); it++) {
+    for (set<pair<char,unsigned>>::iterator it = next_.begin(); it != next_.end(); it++) {
       cout << "Letra: " << get<0>(*it);
-      cout << "\tID: " << get<1>(*it)->id() << "\n";
+      cout << "\tID: " << get<1>(*it) << "\n";
     }
     cout << "------------------------\n";
     return cout;

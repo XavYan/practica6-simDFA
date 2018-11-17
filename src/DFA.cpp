@@ -1,7 +1,7 @@
 #include "../include/DFA.hpp"
 
 using namespace std;
-DFA::DFA (void) : states_(), all_states_(0), init_(0) {}
+DFA::DFA (void) : states_(), all_states_(0), init_(-1) {}
 DFA::DFA (const set<state_t>& states) : states_ (states), all_states_(0), init_(0){
   all_states_ = states_.size();
 }
@@ -32,10 +32,9 @@ void DFA::create_dfa (const char* nombreFichero) {
     fich >> (int &)all_states_;
     /*Chivato*/ cout << "Estados totales: " << all_states_ << "\n";
 
-    set<state_t> dump;
     for (int i = 0; i < all_states_; i++) {
       state_t state(i);
-      dump.insert(state);
+      states_.insert(state);
     }
     /*Chivato*/ cout << "Numero de estados totales (tamaño del conjunto): " << states_.size() << "\n";
 
@@ -47,7 +46,6 @@ void DFA::create_dfa (const char* nombreFichero) {
     /*Chivato*/ cout << "Lectura de los valores de cada estado:\n";
     unsigned id, accepted, transition;
     char symbol;
-    const state_t* pointer_state;
     for (int i = 0; i < all_states_; i++) {
       //Primero el ID y si es de aceptacion
       fich >> (unsigned &)id >> (unsigned &)accepted;
@@ -55,8 +53,8 @@ void DFA::create_dfa (const char* nombreFichero) {
       /*Chivato*/ cout << "Aceptado?: " << accepted << "\n";
 
       //Obtenemos el estado e indicamos si es de aceptacion
-      state_t* state = find_by_id(id);
-      state->set_accept(accepted);
+      state_t state(id,accepted);
+
       //Recogemos el numero de transiciones de cada estado
       fich >> (unsigned &)transition;
       /*Chivato*/ cout << "Numero de transiciones que tiene: " << transition << "\n";
@@ -67,21 +65,20 @@ void DFA::create_dfa (const char* nombreFichero) {
         /*Chivato*/ cout << "Simbolo: " << symbol << "\n";
         fich >> (unsigned &)id;
         /*Chivato*/ cout << "ID: " << id << "\n";
-        pointer_state = find_by_id(id);
-        state->insert_pair(symbol, pointer_state);
+        state.insert_pair(symbol, id);
       }
-      state->dbg_write();
+      state.dbg_write();
     }
   }
   fich.close();
 }
 
-state_t* DFA::find_by_id (const unsigned id) const {
+/*state_t* DFA::find_by_id (const unsigned id) const {
   for (set<state_t>::iterator it = states_.begin(); it != states_.end(); it++) {
-    if (it->id() == id) { /*Chivato*/ cout << "Coincidencia encontrada...\n"; return &(*it); }
+    if (it->id() == id) { return &(*it); }
   }
   return NULL;
-}
+}*/
 
 ostream& DFA::dbg_write (void) const {
   for (set<state_t>::iterator it = states_.begin(); it != states_.end(); it++) {

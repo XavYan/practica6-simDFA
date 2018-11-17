@@ -23,5 +23,5 @@ public:
   ostream& dbg_write (void) const;
 
 private:
-  state_t* find_by_id (const unsigned id) const;
+  //state_t* find_by_id (const unsigned id) const;
 };
