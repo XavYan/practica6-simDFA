@@ -14,6 +14,24 @@ int main (void) {
   cin >> nombreFichero;
   dfa.create_dfa(nombreFichero);
 
-  //dfa.dbg_write();
+  dfa.write();
+
+  string s;
+  cout << "Indica una cadena: ";
+  cin >> s;
+  cout << "Cadena aceptada: " << dfa.chain_test(s) << "\n";
+
+  cout << "\t---- ESTADOS DE MUERTE ----\n";
+  set<state_t> states = dfa.dead_states();
+
+  if (states.size() == 0) cout << "\tNo hay estados de muerte.\n"; else {
+    cout << "\tHay " << states.size() << " estado" << (states.size() > 1 ? "s" : "") << " de muerte, " << (states.size() > 1 ? "los cuales son" : "el cual es") << ": ";
+    cout << "{";
+    for (set<state_t>::iterator it = states.begin(); it != states.end(); it++) {
+      cout << it->id() << ",";
+    }
+    cout << "}\n";
+  }
+
   return 0;
 }

@@ -20,6 +20,10 @@ public:
     return id_;
   }
 
+  set<pair<char, unsigned> > getNext (void) const {
+    return next_;
+  }
+
   const bool is_accept (void) {
     return accept_;
   }
@@ -48,15 +52,15 @@ public:
     return (id() < state.id());
   }
 
-  ostream& dbg_write (void) const {
-    cout << "\t---- ESTADO " << id_+1 << " ----\n";
-    cout << "Es un nodo de aceptacion?: " << accept_ << "\n";
-    cout << "Estados conectados:\n";
+  ostream& write (void) const {
+    cout << "\t---------- ESTADO " << id_+1 << " -----------\n";
+    cout << "\tEs un nodo de aceptacion?: " << accept_ << "\n";
+    cout << "\tEstados conectados:\n";
     for (set<pair<char,unsigned>>::iterator it = next_.begin(); it != next_.end(); it++) {
-      cout << "Letra: " << get<0>(*it);
+      cout << "\tLetra: " << get<0>(*it);
       cout << "\tID: " << get<1>(*it) << "\n";
     }
-    cout << "------------------------\n";
+    cout << "\t-------------------------------\n";
     return cout;
   }
 };
