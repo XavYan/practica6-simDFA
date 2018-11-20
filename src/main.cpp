@@ -1,14 +1,5 @@
 #include "../include/DFA.hpp"
 
-//FALTA:
-// 1. SEPARAR LAS DECLARACIONES DE LAS IMPLEMENTACIONES. [HECHO]
-// 2. HACER MAKEFILE [HECHO]
-// 3. HACER MAIN [HECHO]
-// 4. INTENTAR LOGRAR EL UNICO FALLO QUE ME QUEDA POR EVITAR
-// 5. ORDENAR METODOS EN LOS CPP [HECHO]
-// 6. QUITAR CHIVATOS [HECHO]
-// 7. LIMPIAR MAIN
-
 unsigned set_format (void) { //Indica el formato de muestreo. Si es 0 el DFA lo muestra como en el fichero.
   char opt;
   cout << "Idique el formato:\n";
@@ -22,7 +13,7 @@ unsigned set_format (void) { //Indica el formato de muestreo. Si es 0 el DFA lo 
 }
 
 int main (void) {
-  
+
   DFA dfa;
 
   int opt;
@@ -47,8 +38,6 @@ int main (void) {
     cin >> opt;
 
     cout << "----------------------------------------------------------------------------------------------------\n";
-
-    //cout << "\x1b[2J\x1b[H"; //Limpia la terminal
 
     switch (opt) {
       case 1: {
